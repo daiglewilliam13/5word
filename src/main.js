@@ -1,5 +1,11 @@
 'use strict';
 import Input from './Input.js';
+import {
+    getGuessWord,
+    disableInput,
+    getLast5Inputs,
+    checkGuess,
+} from './fn-module.js';
 const {useState, useEffect} = React;
 
 
@@ -10,32 +16,21 @@ const Main = () => {
     const [wordGuess, setWordGuess] = useState([]);
 
     const handleKeyup = (e) => {
-        setWordGuess(wordGuess.concat(e.target.value))
+        setWordGuess(getGuessWord());
     }
-    const disableInput = (input) => {
-        let oldInputs = Array.from(document.getElementsByClassName('letter-input'));
-        oldInputs = oldInputs.splice(0, oldInputs.length-5);
-        oldInputs.forEach((input)=>{
-            input.setAttribute('disabled',"");
-        })
-    }
-    const checkGuess = (guess, correct) => {
-        console.log(guess.join(''));
-        let newInputs = Array.from(document.getElementsByClassName('letter-input'));
-        newInputs = newInputs.splice(newInputs.length-5, newInputs.length)
-        newInputs.forEach((input, index)=>{
-            if(correct.includes(input.value)) {
-                if (index===correct.indexOf(input.value)){
-                    input.classList.add('direct-hit')
-                } else {
-                    input.classList.add('side-hit')
+    const bindInputs = () => {
+        const inputs = Array.from(document.getElementsByClassName('letter-input'));
+        inputs.forEach(input => {
+            input.addEventListener('keyup', function (e) {
+                handleKeyup();
+                if (e.keyCode === 8) {
+                    input.previousElementSibling.focus()
+                } else if (input.nextElementSibling && input.nextElementSibling.nodeName === 'INPUT') {
+                    input.nextElementSibling.focus();
                 }
-            } else {
-                input.classList.add('no-hit');
-                console.log('other')
-            }
+            })
         })
-    } 
+    }
     const handleClick = (e) =>{
         checkGuess(wordGuess, correctWord);
         setWordGuess([]);
@@ -46,13 +41,15 @@ const Main = () => {
         </React.Fragment>))
 
     }
+
     useEffect(()=>{
+        bindInputs();
         disableInput();
         console.log(correctWord);
     },[inputList])
     return (
         <React.Fragment>
-            <Input handleKeyup={handleKeyup}/>
+            <Input/>
             {inputList}
             <button onClick={handleClick}>????</button>
         </React.Fragment>
