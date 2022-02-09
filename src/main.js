@@ -32,7 +32,7 @@ const Main = () => {
                 }
             } else {
                 input.classList.add('no-hit');
-                console.log('no match')
+                console.log('othjer')
             }
         })
     } 
