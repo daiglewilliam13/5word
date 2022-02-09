@@ -23,6 +23,16 @@ var Main = function Main() {
         wordGuess = _useState4[0],
         setWordGuess = _useState4[1];
 
+    var _useState5 = useState(0),
+        _useState6 = _slicedToArray(_useState5, 2),
+        count = _useState6[0],
+        setCount = _useState6[1];
+
+    var _useState7 = useState(false),
+        _useState8 = _slicedToArray(_useState7, 2),
+        hasWon = _useState8[0],
+        setHasWon = _useState8[1];
+
     var handleKeyup = function handleKeyup(e) {
         setWordGuess(getGuessWord());
     };
@@ -40,14 +50,17 @@ var Main = function Main() {
         });
     };
     var handleClick = function handleClick(e) {
-        checkGuess(wordGuess, correctWord);
+        var won = checkGuess(wordGuess, correctWord);
+        setHasWon(won);
         setWordGuess([]);
-        setInputList(inputList.concat(React.createElement(
-            React.Fragment,
-            null,
-            React.createElement('br', null),
-            React.createElement(Input, { key: inputList.length })
-        )));
+        if (!won) {
+            setInputList(inputList.concat(React.createElement(
+                React.Fragment,
+                null,
+                React.createElement('br', null),
+                React.createElement(Input, { key: inputList.length })
+            )));
+        }
     };
 
     useEffect(function () {
@@ -62,9 +75,14 @@ var Main = function Main() {
         inputList,
         React.createElement(
             'button',
-            { onClick: handleClick },
+            { onClick: handleClick, disabled: hasWon },
             '????'
-        )
+        ),
+        hasWon ? React.createElement(
+            'p',
+            null,
+            'Congratulations!'
+        ) : React.createElement('p', null)
     );
 };
 

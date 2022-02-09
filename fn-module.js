@@ -28,6 +28,7 @@ export const checkGuess = (guess, correct) => {
         last5.forEach((input) => {
             input.classList.add('direct-hit');
         })
+        return true;
     }
     last5.forEach((input, index) => {
         if (correct.includes(input.value)) {
@@ -40,4 +41,5 @@ export const checkGuess = (guess, correct) => {
             input.classList.add('no-hit');
         }
     })
+    return false;
 }

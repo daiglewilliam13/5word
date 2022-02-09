@@ -15,6 +15,8 @@ let correctWord = Array.from(wordArr[Math.floor(Math.random() * wordArr.length)]
 const Main = () => {
     const [inputList, setInputList] = useState([]);
     const [wordGuess, setWordGuess] = useState([]);
+    const [count, setCount] = useState(0);
+    const [hasWon, setHasWon] = useState(false);
 
     const handleKeyup = (e) => {
         setWordGuess(getGuessWord());
@@ -33,14 +35,15 @@ const Main = () => {
         })
     }
     const handleClick = (e) =>{
-        checkGuess(wordGuess, correctWord);
+        const won = checkGuess(wordGuess, correctWord);
+        setHasWon(won);
         setWordGuess([]);
-        setInputList(inputList.concat(
+        if(!won){setInputList(inputList.concat(
         <React.Fragment>
             <br></br>
             <Input key={inputList.length}/>     
         </React.Fragment>))
-
+        } 
     }
 
     useEffect(()=>{
@@ -52,7 +55,8 @@ const Main = () => {
         <React.Fragment>
             <Input/>
             {inputList}
-            <button onClick={handleClick}>????</button>
+            <button onClick={handleClick} disabled={hasWon}>????</button>
+            {hasWon ? <p>Congratulations!</p> :<p></p>}
         </React.Fragment>
         
     )
