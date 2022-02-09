@@ -54,6 +54,7 @@ const Main = () => {
         setInputList([]);
         setHasWon(false);
         resetInputs();
+        setCount(0);
         correctWord = Array.from(wordArr[Math.floor(Math.random() * wordArr.length)]);
     }
     useEffect(()=>{
