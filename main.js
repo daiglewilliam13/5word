@@ -61,6 +61,9 @@ var Main = function Main() {
                 React.createElement('br', null),
                 React.createElement(Input, { key: inputList.length })
             )));
+            setCount(function (count) {
+                return count + 1;
+            });
         }
     };
 
@@ -84,6 +87,12 @@ var Main = function Main() {
             'button',
             { onClick: handleClick, disabled: hasWon },
             '????'
+        ),
+        React.createElement(
+            'p',
+            null,
+            'Number of Tries: ',
+            count
         ),
         hasWon ? React.createElement(Win, { reload: reload }) : React.createElement('p', null)
     );

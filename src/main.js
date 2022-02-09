@@ -45,6 +45,7 @@ const Main = () => {
             <br></br>
             <Input key={inputList.length}/>     
         </React.Fragment>))
+        setCount(count=>count+1);
         } 
     }
 
@@ -65,6 +66,7 @@ const Main = () => {
             <Input />
             {inputList}
             <button onClick={handleClick} disabled={hasWon}>????</button>
+            <p>Number of Tries: {count}</p>
             {hasWon? <Win reload={reload}/> : <p></p>}
         </React.Fragment>
         
