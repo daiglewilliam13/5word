@@ -4,12 +4,13 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
 import Input from './Input.js';
 import { getGuessWord, disableInput, getLast5Inputs, checkGuess } from './fn-module.js';
+import { data } from './5-letter-words.js';
 var _React = React,
     useState = _React.useState,
     useEffect = _React.useEffect;
 
 
-var wordArr = ['acrid', 'adopt', 'admit', 'adult'];
+var wordArr = data;
 var correctWord = Array.from(wordArr[Math.floor(Math.random() * wordArr.length)]);
 var Main = function Main() {
     var _useState = useState([]),

@@ -6,10 +6,11 @@ import {
     getLast5Inputs,
     checkGuess,
 } from './fn-module.js';
+import {data} from './5-letter-words.js';
 const {useState, useEffect} = React;
 
 
-const wordArr = ['acrid', 'adopt', 'admit', 'adult'];
+const wordArr = data;
 let correctWord = Array.from(wordArr[Math.floor(Math.random() * wordArr.length)]);
 const Main = () => {
     const [inputList, setInputList] = useState([]);
