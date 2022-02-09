@@ -43,3 +43,14 @@ export const checkGuess = (guess, correct) => {
     })
     return false;
 }
+export const resetInputs = () => {
+    const inputs = Array.from(document.getElementsByClassName('letter-input'));
+    inputs.forEach(input => {
+        input.classList.remove('direct-hit');
+        input.classList.remove('side-hit');
+        input.classList.remove('no-hit');
+        input.value = '';
+        input.removeAttribute('disabled');
+    })
+}
+

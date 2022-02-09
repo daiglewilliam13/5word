@@ -1,10 +1,12 @@
 'use strict';
 import Input from './Input.js';
+import Win from './Win.js';
 import {
     getGuessWord,
     disableInput,
     getLast5Inputs,
     checkGuess,
+    resetInputs
 } from './fn-module.js';
 import {data} from './5-letter-words.js';
 const {useState, useEffect} = React;
@@ -46,6 +48,13 @@ const Main = () => {
         } 
     }
 
+
+    const reload = () => {
+        setInputList([]);
+        setHasWon(false);
+        resetInputs();
+        correctWord = Array.from(wordArr[Math.floor(Math.random() * wordArr.length)]);
+    }
     useEffect(()=>{
         bindInputs();
         disableInput();
@@ -53,10 +62,10 @@ const Main = () => {
     },[inputList])
     return (
         <React.Fragment>
-            <Input/>
+            <Input />
             {inputList}
             <button onClick={handleClick} disabled={hasWon}>????</button>
-            {hasWon ? <p>Congratulations!</p> :<p></p>}
+            {hasWon? <Win reload={reload}/> : <p></p>}
         </React.Fragment>
         
     )
