@@ -20,10 +20,10 @@ const Main = () => {
         })
     }
     const checkGuess = (guess, correct) => {
+        console.log(guess.join(''));
         let newInputs = Array.from(document.getElementsByClassName('letter-input'));
         newInputs = newInputs.splice(newInputs.length-5, newInputs.length)
         newInputs.forEach((input, index)=>{
-            console.log(input.value)
             if(correct.includes(input.value)) {
                 if (index===correct.indexOf(input.value)){
                     input.classList.add('direct-hit')
@@ -31,6 +31,7 @@ const Main = () => {
                     input.classList.add('side-hit')
                 }
             } else {
+                input.classList.add('no-hit');
                 console.log('no match')
             }
         })
@@ -38,7 +39,6 @@ const Main = () => {
     const handleClick = (e) =>{
         checkGuess(wordGuess, correctWord);
         setWordGuess([]);
-        console.log(wordGuess)
         setInputList(inputList.concat(
         <React.Fragment>
             <br></br>

@@ -14,3 +14,7 @@ input.direct-hit {
 input.side-hit {
     background-color:yellow;
 }
+
+input.no-hit {
+    background-color: grey;
+}
