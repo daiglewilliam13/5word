@@ -1,14 +1,15 @@
 'use strict';
 const {useEffect} = React;
+import Letterbox from './Letterbox.js';
 
-const Input = () => {  
+const Input = (props) => {  
     return(
         <React.Fragment>
-        <input type="text" className="letter-input" maxLength='1'></input>
-        <input type="text" className="letter-input" maxLength='1'></input>
-        <input type="text" className="letter-input" maxLength='1'></input>
-        <input type="text" className="letter-input" maxLength='1'></input>
-        <input type="text" className="letter-input" maxLength='1'></input>
+            <Letterbox isActive={...props.isActive}/>
+            <Letterbox isActive={...props.isActive}/>
+            <Letterbox isActive={...props.isActive}/>
+            <Letterbox isActive={...props.isActive}/>
+            <Letterbox isActive={...props.isActive}/>
         </React.Fragment>
     )
 }

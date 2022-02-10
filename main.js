@@ -13,6 +13,7 @@ var _React = React,
 
 var wordArr = data;
 var correctWord = Array.from(wordArr[Math.floor(Math.random() * wordArr.length)]);
+
 var Main = function Main() {
     var _useState = useState([]),
         _useState2 = _slicedToArray(_useState, 2),
@@ -24,7 +25,7 @@ var Main = function Main() {
         wordGuess = _useState4[0],
         setWordGuess = _useState4[1];
 
-    var _useState5 = useState(0),
+    var _useState5 = useState(1),
         _useState6 = _slicedToArray(_useState5, 2),
         count = _useState6[0],
         setCount = _useState6[1];
@@ -59,7 +60,7 @@ var Main = function Main() {
                 React.Fragment,
                 null,
                 React.createElement('br', null),
-                React.createElement(Input, { key: inputList.length })
+                React.createElement(Input, { isActive: true, key: inputList.length })
             )));
             setCount(function (count) {
                 return count + 1;
@@ -71,9 +72,10 @@ var Main = function Main() {
         setInputList([]);
         setHasWon(false);
         resetInputs();
-        setCount(0);
+        setCount(1);
         correctWord = Array.from(wordArr[Math.floor(Math.random() * wordArr.length)]);
     };
+
     useEffect(function () {
         bindInputs();
         disableInput();
@@ -82,7 +84,7 @@ var Main = function Main() {
     return React.createElement(
         React.Fragment,
         null,
-        React.createElement(Input, null),
+        React.createElement(Input, { isActive: true }),
         inputList,
         React.createElement(
             'button',
@@ -92,7 +94,7 @@ var Main = function Main() {
         React.createElement(
             'p',
             null,
-            'Number of Tries: ',
+            'Attempt # ',
             count
         ),
         hasWon ? React.createElement(Win, { reload: reload }) : React.createElement('p', null)

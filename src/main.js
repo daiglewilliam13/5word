@@ -6,7 +6,7 @@ import {
     disableInput,
     getLast5Inputs,
     checkGuess,
-    resetInputs
+    resetInputs,
 } from './fn-module.js';
 import {data} from './5-letter-words.js';
 const {useState, useEffect} = React;
@@ -14,10 +14,11 @@ const {useState, useEffect} = React;
 
 const wordArr = data;
 let correctWord = Array.from(wordArr[Math.floor(Math.random() * wordArr.length)]);
+
 const Main = () => {
     const [inputList, setInputList] = useState([]);
     const [wordGuess, setWordGuess] = useState([]);
-    const [count, setCount] = useState(0);
+    const [count, setCount] = useState(1);
     const [hasWon, setHasWon] = useState(false);
 
     const handleKeyup = (e) => {
@@ -43,7 +44,7 @@ const Main = () => {
         if(!won){setInputList(inputList.concat(
         <React.Fragment>
             <br></br>
-            <Input key={inputList.length}/>     
+            <Input isActive={true} key={inputList.length}/>     
         </React.Fragment>))
         setCount(count=>count+1);
         } 
@@ -54,9 +55,10 @@ const Main = () => {
         setInputList([]);
         setHasWon(false);
         resetInputs();
-        setCount(0);
+        setCount(1);
         correctWord = Array.from(wordArr[Math.floor(Math.random() * wordArr.length)]);
     }
+
     useEffect(()=>{
         bindInputs();
         disableInput();
@@ -64,10 +66,10 @@ const Main = () => {
     },[inputList])
     return (
         <React.Fragment>
-            <Input />
+            <Input isActive={true}/>
             {inputList}
             <button onClick={handleClick} disabled={hasWon}>????</button>
-            <p>Number of Tries: {count}</p>
+            <p>Attempt # {count}</p>
             {hasWon? <Win reload={reload}/> : <p></p>}
         </React.Fragment>
         

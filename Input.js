@@ -3,16 +3,17 @@
 var _React = React,
     useEffect = _React.useEffect;
 
+import Letterbox from './Letterbox.js';
 
-var Input = function Input() {
+var Input = function Input(props) {
     return React.createElement(
         React.Fragment,
         null,
-        React.createElement("input", { type: "text", className: "letter-input", maxLength: "1" }),
-        React.createElement("input", { type: "text", className: "letter-input", maxLength: "1" }),
-        React.createElement("input", { type: "text", className: "letter-input", maxLength: "1" }),
-        React.createElement("input", { type: "text", className: "letter-input", maxLength: "1" }),
-        React.createElement("input", { type: "text", className: "letter-input", maxLength: "1" })
+        React.createElement(Letterbox, { isActive: props.isActive }),
+        React.createElement(Letterbox, { isActive: props.isActive }),
+        React.createElement(Letterbox, { isActive: props.isActive }),
+        React.createElement(Letterbox, { isActive: props.isActive }),
+        React.createElement(Letterbox, { isActive: props.isActive })
     );
 };
 

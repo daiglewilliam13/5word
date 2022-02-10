@@ -20,10 +20,13 @@ export const getLast5Inputs = () => {
     newInputs = newInputs.splice(newInputs.length - 5, newInputs.length)
     return newInputs;
 }
+
 export const checkGuess = (guess, correct) => {
     const last5 = getLast5Inputs();
-    const guessStr = guess.join('');
-    const corStr = correct.join('');
+    let guessStr = guess.join('');
+    let corStr = correct.join('');
+    guessStr = guessStr.toLowerCase();
+    corStr = corStr.toLowerCase();
     if (guessStr === corStr) {
         last5.forEach((input) => {
             input.classList.add('direct-hit');
@@ -32,7 +35,9 @@ export const checkGuess = (guess, correct) => {
     }
     last5.forEach((input, index) => {
         if (correct.includes(input.value)) {
-            if (index === correct.indexOf(input.value)) {
+            console.log(input.value)
+            console.log(correct[index])
+            if (input.value === correct[index]) {
                 input.classList.add('direct-hit')
             } else {
                 input.classList.add('side-hit')
