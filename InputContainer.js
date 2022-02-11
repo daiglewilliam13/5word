@@ -5,28 +5,32 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 var _React = React,
-    useState = _React.useState;
+    useState = _React.useState,
+    useEffect = _React.useEffect;
 
 import Letterbox from './Letterbox.js';
 
-var Input = function Input(props) {
+var InputContainer = function InputContainer(props) {
     var _useState = useState(props.number),
         _useState2 = _slicedToArray(_useState, 2),
         letterCount = _useState2[0],
         setLetterCount = _useState2[1];
-
-    console.log(letterCount);
 
     var _useState3 = useState([]),
         _useState4 = _slicedToArray(_useState3, 2),
         boxArr = _useState4[0],
         setBoxArr = _useState4[1];
 
-    for (var i = 0; i < letterCount; i++) {
-        setBoxArr(function (boxArr) {
-            return [].concat(_toConsumableArray(boxArr), [React.createElement(Letterbox, null)]);
-        });
-    }
+    var addBoxes = function addBoxes(num) {
+        for (var i = 0; i < num; i++) {
+            setBoxArr(function (boxArr) {
+                return [].concat(_toConsumableArray(boxArr), [React.createElement(Letterbox, null)]);
+            });
+        }
+    };
+    useEffect(function () {
+        addBoxes(letterCount);
+    }, []);
     return React.createElement(
         React.Fragment,
         null,
@@ -38,4 +42,4 @@ var Input = function Input(props) {
     );
 };
 
-export default Input;
+export default InputContainer;
