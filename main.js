@@ -37,24 +37,10 @@ var Main = function Main() {
         letterCount = _useState8[0],
         setLetterCount = _useState8[1];
 
-    var bindInputs = function bindInputs() {
-        var inputs = Array.from(document.getElementsByClassName('letter-input'));
-        inputs.forEach(function (input) {
-            input.addEventListener('keyup', function (e) {
-                if (e.keyCode === 8) {
-                    input.previousElementSibling.focus();
-                } else if (input.nextElementSibling && input.nextElementSibling.nodeName === 'INPUT') {
-                    input.nextElementSibling.focus();
-                }
-            });
-        });
-    };
-
     var checkGuess = function checkGuess(correct) {
         var guessArr = getGuessWord();
         var guessStr = guessArr.join('').toLowerCase();
         var corStr = correct.join('').toLowerCase();
-        if (corStr === guessStr) return true;
         var newStatusArr = guessArr.map(function (el, index) {
             if (correct.includes(el)) {
                 return el === correct[index] ? 'd' : 's';
@@ -65,13 +51,13 @@ var Main = function Main() {
         var newInputList = inputList.slice(0, inputList.length - 1);
         newInputList.push(newStatusArr);
         setInputList(newInputList);
+        if (corStr === guessStr) return true;
         return false;
     };
 
     var handleClick = function handleClick(e) {
         var won = checkGuess(correctWord);
         setHasWon(won);
-        disableInput();
         if (!won) {
             addInputs(dStatusArr);
             setCount(function (count) {
@@ -91,14 +77,14 @@ var Main = function Main() {
         setInputList([]);
         addInputs(dStatusArr);
         setHasWon(false);
-        resetInputs();
         setCount(1);
+        resetInputs();
         correctWord = Array.from(wordArr[Math.floor(Math.random() * wordArr.length)]);
     };
     useEffect(function () {
         if (inputList.length === 0) addInputs(dStatusArr);
         console.log(correctWord);
-    }, [inputList]);
+    });
     return React.createElement(
         React.Fragment,
         null,
@@ -108,7 +94,7 @@ var Main = function Main() {
         React.createElement(
             'button',
             { onClick: handleClick, disabled: hasWon },
-            '????'
+            'GO!'
         ),
         React.createElement(
             'p',

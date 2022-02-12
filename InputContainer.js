@@ -24,7 +24,6 @@ var InputContainer = function InputContainer(props) {
             'div',
             { className: 'input-wrapper' },
             boxArr.map(function (box) {
-                console.log(box);
                 return React.createElement(Letterbox, { letterStatus: box });
             })
         )
