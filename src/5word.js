@@ -24,11 +24,13 @@ const Main = () => {
 
     const checkGuess = (correct) => {
         const guessArr = getGuessWord();
-        let guessStr = guessArr.join('').toLowerCase();
-        let corStr = correct.join('').toLowerCase();
+        let guessStr = guessArr.join('')
+        let corStr = correct.join('')
+        guessStr = guessStr.toLowerCase();
+        corStr = corStr.toLowerCase();
         let newStatusArr = guessArr.map((el, index)=>{
-            if (correct.includes(el)) {
-                return el === correct[index] ? 'd' : 's';
+            if (correct.includes(el.toLowerCase())) {
+                return el.toLowerCase() === correct[index] ? 'd' : 's';
             } else {
                 return 'n'
             }
