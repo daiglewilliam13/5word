@@ -3,20 +3,19 @@ const {useState, useEffect} = React;
 import Letterbox from './Letterbox.js';
 
 const InputContainer = (props) => {
-    const [letterCount, setLetterCount] = useState(props.number);
     const [boxArr, setBoxArr] = useState([]);
-    const addBoxes = (num)=>{
-        for (let i=0; i<num; i++){
-            setBoxArr(boxArr=>[...boxArr, <Letterbox />])
-        }
-    }
     useEffect(()=>{
-        addBoxes(letterCount)
-    },[])
+        setBoxArr(props.statusArr)    
+    },[props.statusArr])
     return(
         <React.Fragment>
             <div className="input-wrapper">
-                {boxArr}
+                {boxArr.map(box=>{
+                    console.log(box)
+                    return(
+                        <Letterbox letterStatus={box} />
+                    )})
+                }
             </div>
         </React.Fragment>
     )

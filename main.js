@@ -22,34 +22,25 @@ var Main = function Main() {
         inputList = _useState2[0],
         setInputList = _useState2[1];
 
-    var _useState3 = useState([]),
+    var _useState3 = useState(1),
         _useState4 = _slicedToArray(_useState3, 2),
-        wordGuess = _useState4[0],
-        setWordGuess = _useState4[1];
+        count = _useState4[0],
+        setCount = _useState4[1];
 
-    var _useState5 = useState(1),
+    var _useState5 = useState(false),
         _useState6 = _slicedToArray(_useState5, 2),
-        count = _useState6[0],
-        setCount = _useState6[1];
+        hasWon = _useState6[0],
+        setHasWon = _useState6[1];
 
-    var _useState7 = useState(false),
+    var _useState7 = useState(5),
         _useState8 = _slicedToArray(_useState7, 2),
-        hasWon = _useState8[0],
-        setHasWon = _useState8[1];
+        letterCount = _useState8[0],
+        setLetterCount = _useState8[1];
 
-    var _useState9 = useState(5),
-        _useState10 = _slicedToArray(_useState9, 2),
-        letterCount = _useState10[0],
-        setLetterCount = _useState10[1];
-
-    var handleKeyup = function handleKeyup(e) {
-        setWordGuess(getGuessWord());
-    };
     var bindInputs = function bindInputs() {
         var inputs = Array.from(document.getElementsByClassName('letter-input'));
         inputs.forEach(function (input) {
             input.addEventListener('keyup', function (e) {
-                handleKeyup();
                 if (e.keyCode === 8) {
                     input.previousElementSibling.focus();
                 } else if (input.nextElementSibling && input.nextElementSibling.nodeName === 'INPUT') {
@@ -66,26 +57,21 @@ var Main = function Main() {
         if (corStr === guessStr) return true;
         var newStatusArr = guessArr.map(function (el, index) {
             if (correct.includes(el)) {
-                if (el === correct[index]) {
-                    return 'd';
-                } else {
-                    return 's';
-                }
+                return el === correct[index] ? 'd' : 's';
             } else {
                 return 'n';
             }
         });
-        //remove last input component in inputList array
-        setInputList(inputList.splice(-1, 1));
-        //replace with new input component with updated array
-        addInputs(newStatusArr);
+        var newInputList = inputList.slice(0, inputList.length - 1);
+        newInputList.push(newStatusArr);
+        setInputList(newInputList);
         return false;
     };
 
     var handleClick = function handleClick(e) {
         var won = checkGuess(correctWord);
         setHasWon(won);
-        setWordGuess([]);
+        disableInput();
         if (!won) {
             addInputs(dStatusArr);
             setCount(function (count) {
@@ -93,28 +79,32 @@ var Main = function Main() {
             });
         }
     };
-    var addInputs = function addInputs(statusArr) {
+
+    var addInputs = function addInputs(arr) {
+        var newInput = arr;
         setInputList(function (inputList) {
-            return [].concat(_toConsumableArray(inputList), [React.createElement(InputContainer, { number: letterCount, statusArr: statusArr })]);
+            return [].concat(_toConsumableArray(inputList), [newInput]);
         });
-        bindInputs();
     };
 
     var reload = function reload() {
         setInputList([]);
+        addInputs(dStatusArr);
         setHasWon(false);
         resetInputs();
         setCount(1);
         correctWord = Array.from(wordArr[Math.floor(Math.random() * wordArr.length)]);
     };
     useEffect(function () {
-        addInputs(dStatusArr);
+        if (inputList.length === 0) addInputs(dStatusArr);
         console.log(correctWord);
-    }, []);
+    }, [inputList]);
     return React.createElement(
         React.Fragment,
         null,
-        inputList,
+        inputList.map(function (input) {
+            return React.createElement(InputContainer, { number: letterCount, statusArr: input });
+        }),
         React.createElement(
             'button',
             { onClick: handleClick, disabled: hasWon },

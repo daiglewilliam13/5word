@@ -16,19 +16,14 @@ let correctWord = Array.from(wordArr[Math.floor(Math.random() * wordArr.length)]
 const dStatusArr = ['a', 'a', 'a', 'a', 'a'];
 const Main = () => {
     const [inputList, setInputList] = useState([]);
-    const [wordGuess, setWordGuess] = useState([]);
     const [count, setCount] = useState(1);
     const [hasWon, setHasWon] = useState(false);
     const [letterCount, setLetterCount] = useState(5);
 
-    const handleKeyup = (e) => {
-        setWordGuess(getGuessWord());
-    }
     const bindInputs = () => {
         const inputs = Array.from(document.getElementsByClassName('letter-input'));
         inputs.forEach(input => {
             input.addEventListener('keyup', function (e) {
-                handleKeyup();
                 if (e.keyCode === 8) {
                     input.previousElementSibling.focus()
                 } else if (input.nextElementSibling && input.nextElementSibling.nodeName === 'INPUT') {
@@ -45,51 +40,51 @@ const Main = () => {
         if(corStr === guessStr) return true;
         let newStatusArr = guessArr.map((el, index)=>{
             if (correct.includes(el)) {
-                if (el === correct[index]) {
-                    return 'd';
-                } else {
-                    return 's';
-                }
+                return el === correct[index] ? 'd' : 's';
             } else {
                 return 'n'
             }
         })
-        //remove last input component in inputList array
-        setInputList(inputList.splice(-1,1))
-        //replace with new input component with updated array
-        addInputs(newStatusArr);
+        const newInputList = inputList.slice(0, inputList.length-1);
+        newInputList.push(newStatusArr);
+        setInputList(newInputList)
         return false;
     }
 
     const handleClick = (e) => {
         const won = checkGuess(correctWord);
         setHasWon(won);
-        setWordGuess([]);
+        disableInput();
         if (!won) {
             addInputs(dStatusArr);
             setCount(count => count + 1);
         }
     }
-    const addInputs = (statusArr) => {
-        setInputList(inputList=>([...inputList, <InputContainer number={letterCount} statusArr={statusArr}/>]))
-        bindInputs();
-    }
 
+    const addInputs = (arr) => {
+        const newInput = arr
+        setInputList(inputList=>[...inputList, newInput])
+    }
 
     const reload = () => {
         setInputList([]);
+        addInputs(dStatusArr);
         setHasWon(false);
         resetInputs();
         setCount(1);
         correctWord = Array.from(wordArr[Math.floor(Math.random() * wordArr.length)]);
     }
     useEffect(() => {
-        addInputs(dStatusArr);
-        console.log(correctWord);
-    }, [])
+        if(inputList.length===0) addInputs(dStatusArr);
+        console.log(correctWord)
+    },[inputList])
     return (
         <React.Fragment>
-            {inputList}
+            {inputList.map((input)=>{
+                return(
+                    <InputContainer number={letterCount} statusArr={input} />
+                )})
+            }
             <button onClick={handleClick} disabled={hasWon}>????</button>
             <p>Attempt # {count}</p>
             {hasWon ? <Win reload={reload} /> : <p>Keep Trying!</p>}

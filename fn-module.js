@@ -10,7 +10,7 @@ export const getGuessWord = () => {
 }
 export const disableInput = (input) => {
     let oldInputs = Array.from(document.getElementsByClassName('letter-input'));
-    oldInputs = oldInputs.splice(0, oldInputs.length - 5);
+    oldInputs = oldInputs.slice(Math.max(oldInputs.length-5, 0));
     oldInputs.forEach((input) => {
         input.setAttribute('disabled', "");
     })
