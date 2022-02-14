@@ -30,7 +30,12 @@ export const resetInputs = () => {
 }
 
 export const moveToNext = (e) => {
-        const prev = e.target.previousElementSibling;
         const next = e.target.nextElementSibling
-        e.keyCode === 8 || e.keyCode=== 37  ? prev?.focus() : next?.focus();
+        if(e.target.value !== '' || e.key === 'ArrowRight') next?.focus();
+}
+
+export const moveToPrev = (e) => {
+    const prev = e.target.previousElementSibling;
+    const key = e.key;
+    if(key==='Backspace') {prev?.focus(); prev?.select()};
 }
