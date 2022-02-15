@@ -10,9 +10,10 @@ const InputContainer = (props) => {
     return(
         <React.Fragment>
             <div className="input-wrapper">
-                {boxArr.map(box=>{
+                {boxArr.map((box, index)=>{
+                    
                     return(
-                        <Letterbox letterStatus={box} />
+                        <Letterbox letterStatus={box} autoFocus={index===0} last={index===boxArr.length-1}/>
                     )})
                 }
             </div>

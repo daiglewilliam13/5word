@@ -20,7 +20,10 @@ const Main = () => {
     const [hasWon, setHasWon] = useState(false);
     const [letterCount, setLetterCount] = useState(5);
 
-
+    const focusFirst = () => {
+        const last5 = getLast5Inputs();
+        last5[0].focus();
+    }
 
     const checkGuess = (correct) => {
         const guessArr = getGuessWord();
@@ -65,7 +68,7 @@ const Main = () => {
         correctWord = Array.from(wordArr[Math.floor(Math.random() * wordArr.length)]);
     }
     useEffect(() => {
-        if(inputList.length===0) addInputs(dStatusArr);
+        if(inputList.length===0) {addInputs(dStatusArr)}
         console.log(correctWord)
     })
     return (
