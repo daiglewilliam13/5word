@@ -68,7 +68,6 @@ const Main = () => {
     }
     useEffect(() => {
         if(inputList.length===0) {addInputs(dStatusArr)}
-        console.log(correctWord)
         setHasLoaded(true)
     },[])
     return hasLoaded ? (
