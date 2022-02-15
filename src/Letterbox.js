@@ -1,5 +1,5 @@
 'use strict' ;
-import { moveToNext, moveToPrev } from "./fn-module.js";
+import { moveToNext, moveToPrev, checkEnter } from "./fn-module.js";
 const Letterbox = (props) => {
     const getClass = (letter) =>{
         return {
@@ -15,6 +15,7 @@ const Letterbox = (props) => {
         <input type="text" 
                 onChange={moveToNext}
                 onKeyUp={moveToPrev}
+                onKeyDown={(e)=>checkEnter(e, props.handleClick)}
                 className={classList}
                 maxLength={1}
                 disabled={disabled}

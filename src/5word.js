@@ -10,8 +10,11 @@ import {
 import { data } from './5-letter-words.js';
 const { useState, useEffect } = React;
 
-
-const wordArr = data;
+const noPlurals = (arr) => {
+    if(arr[4]==='s') return false;
+    return true;
+}
+const wordArr = data.filter(noPlurals);
 let correctWord = Array.from(wordArr[Math.floor(Math.random() * wordArr.length)]);
 const dStatusArr = ['a', 'a', 'a', 'a', 'a'];
 const Main = () => {
@@ -19,11 +22,7 @@ const Main = () => {
     const [count, setCount] = useState(1);
     const [hasWon, setHasWon] = useState(false);
     const [letterCount, setLetterCount] = useState(5);
-
-    const focusFirst = () => {
-        const last5 = getLast5Inputs();
-        last5[0].focus();
-    }
+    const [hasLoaded, setHasLoaded] =useState(false);
 
     const checkGuess = (correct) => {
         const guessArr = getGuessWord();
@@ -58,7 +57,7 @@ const Main = () => {
         const newInput = arr
         setInputList(inputList=>[...inputList, newInput])
     }
-
+    
     const reload = () => {
         setInputList([]);
         addInputs(dStatusArr);
@@ -70,12 +69,13 @@ const Main = () => {
     useEffect(() => {
         if(inputList.length===0) {addInputs(dStatusArr)}
         console.log(correctWord)
-    })
-    return (
+        setHasLoaded(true)
+    },[])
+    return hasLoaded ? (
         <React.Fragment>
             {inputList.map((input)=>{
                 return(
-                    <InputContainer number={letterCount} statusArr={input} />
+                    <InputContainer number={letterCount} statusArr={input} handleClick={handleClick}/>
                 )})
             }
             <button onClick={handleClick} disabled={hasWon}>GO!</button>
@@ -83,7 +83,7 @@ const Main = () => {
             {hasWon ? <Win reload={reload} /> : <p>Keep Trying!</p>}
         </React.Fragment>
 
-    )
+    ) : <p>loading game...</p>
 
 }
 
