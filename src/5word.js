@@ -23,33 +23,49 @@ const Main = () => {
     const [hasWon, setHasWon] = useState(false);
     const [letterCount, setLetterCount] = useState(5);
     const [hasLoaded, setHasLoaded] =useState(false);
+    const [validEntry, setValidEntry] = useState(true);
+
+    const isValidEntry = () => {
+        let word = getGuessWord(true);
+        console.log(word.length)
+        return wordArr.includes(word) && word.length===5 ? true : false;
+    }
 
     const checkGuess = (correct) => {
         const guessArr = getGuessWord();
         let guessStr = guessArr.join('')
         let corStr = correct.join('')
         guessStr = guessStr.toLowerCase();
-        corStr = corStr.toLowerCase();
-        let newStatusArr = guessArr.map((el, index)=>{
-            if (correct.includes(el.toLowerCase())) {
-                return el.toLowerCase() === correct[index] ? 'd' : 's';
-            } else {
-                return 'n'
-            }
-        })
-        const newInputList = inputList.slice(0, inputList.length-1);
-        newInputList.push(newStatusArr);
-        setInputList(newInputList)
-        if (corStr === guessStr) return true;
-        return false;
+        corStr = corStr.toLowerCase(); 
+        const isWord = isValidEntry(guessStr);
+        if(isWord){
+            let newStatusArr = guessArr.map((el, index)=>{
+                if (correct.includes(el.toLowerCase())) {
+                    return el.toLowerCase() === correct[index] ? 'd' : 's';
+                } else {
+                    return 'n'
+                }
+            })
+            const newInputList = inputList.slice(0, inputList.length-1);
+            newInputList.push(newStatusArr);
+            setInputList(newInputList)
+            if (corStr === guessStr) return true;
+            return false;
+        } else {
+            console.log('invalid entry')
+        }
     }
 
     const handleClick = (e) => {
+        const isWord = isValidEntry();
         const won = checkGuess(correctWord);
+        setValidEntry(isWord)
         setHasWon(won);
-        if (!won) {
-            addInputs(dStatusArr);
-            setCount(count => count + 1);
+        if(isWord) {
+            if (!won) {
+                addInputs(dStatusArr);
+                setCount(count => count + 1);
+            }
         }
     }
 
@@ -69,7 +85,7 @@ const Main = () => {
     useEffect(() => {
         if(inputList.length===0) {addInputs(dStatusArr)}
         setHasLoaded(true)
-    },[])
+    },[validEntry])
     return hasLoaded ? (
         <React.Fragment>
             {inputList.map((input)=>{
